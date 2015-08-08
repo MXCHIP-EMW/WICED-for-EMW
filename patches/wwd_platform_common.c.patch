@@ -1,0 +1,13 @@
+60a61,72
+>     //patch added to resolve the microseconds delay hang issue.
+>     do
+>     {
+>         // enable DWT hardware and cycle counting
+>         CoreDebug->DEMCR = CoreDebug->DEMCR | CoreDebug_DEMCR_TRCENA_Msk;
+>         // reset a counter
+>         DWT->CYCCNT = 0;
+>         // enable the counter
+>         DWT->CTRL = (DWT->CTRL | DWT_CTRL_CYCCNTENA_Msk) ;
+>     }
+>     while(0);
+> 

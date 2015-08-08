@@ -1,0 +1,1 @@
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0a5c", ATTRS{idProduct}=="43fa", MODE="0666", RUN+="/bin/echo 0a5c 43fa >> /sys/bus/usb-serial/drivers/ftdi_sio/new_id"

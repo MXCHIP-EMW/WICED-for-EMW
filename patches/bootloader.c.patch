@@ -1,0 +1,13 @@
+20a21
+> #include "wiced_platform.h"
+61c62,69
+< 
+---
+>     
+>     // Patched for the EMW3162. Hold the button to halt booting.
+>     // This enables flashing, even if the application uses the JTAG
+>     // for something else.
+>     if ((!wiced_gpio_input_get( WICED_BUTTON1 )) && (!wiced_gpio_input_get( WICED_BUTTON2 ))) {
+>         while(1);
+>     }
+>     // End of patch.

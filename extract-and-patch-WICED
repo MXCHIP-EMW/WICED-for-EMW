@@ -1,0 +1,77 @@
+#!/bin/bash
+set -e
+WICED_DIR='WICED-SDK-3.3.1'
+WICED_ARCHIVE_EXT='.7z.zip'
+
+echo
+echo -- WICED 3.3.1 patcher for MXCHIP EMW modules --
+echo ------------------------------------------------
+
+if [ -e $WICED_DIR ]; then 
+	echo 
+	echo === ERROR: The $WICED_DIR directory already exists.
+	echo ===        Operation aborted, for your safety.
+	echo ===        
+	echo ===        Delete the $WICED_DIR directory to proceed.
+	exit -1
+fi
+
+echo 
+echo === Decompressing WICED
+unzip $WICED_DIR$WICED_ARCHIVE_EXT >> /dev/null
+7z x *.7z >> /dev/null
+rm *.7z
+
+echo 
+echo === Installing the EMW3162 platform
+cp -r patches/EMW3162 $WICED_DIR/platforms
+
+echo 
+echo === Installing the EMW3165 platform
+cp -r patches/EMW3165 $WICED_DIR/platforms
+
+# echo
+# echo "=== Patching wiced_network.c (see http://community.broadcom.com/message/10647#10647)"
+# unzip -o patches/wiced_network.c.zip -d $WICED_DIR/WICED/network/LwIP/WICED/
+
+# echo
+# echo "=== Patching wiced_apps.mk (see http://community.broadcom.com/thread/4456?sr=stream&ru=17953)"
+# cp patches/wiced_apps.mk $WICED_DIR/tools/makefiles
+
+# echo
+# echo "=== Patching wwd_platform_common.c (see https://github.com/EMW3162/WICED_for_EMW3162/issues/4)"
+# patch $WICED_DIR/WICED/platform/MCU/wwd_platform_common.c patches/wwd_platform_common.c.patch
+
+echo
+echo === Patching the bootloader
+echo === This allows you to hold down buttons on the dev-board
+echo === to halt the bootloader. This allows you to flash the device
+echo === even if the application uses the JTAG pins for something else.
+patch $WICED_DIR/apps/waf/bootloader/bootloader.c patches/bootloader.c.patch
+
+echo
+echo === Copying utility scripts to $WICED_DIR
+cp scripts/* $WICED_DIR
+
+echo
+echo === Copying st-link-v2 config to $WICED_DIR
+cp patches/stlinkv2.cfg $WICED_DIR
+
+echo 
+echo === Replacing the J-Link OpenOCD configuration with one that works
+cp patches/jlink.cfg $WICED_DIR/tools/OpenOCD
+
+echo 
+echo === Adding udev rules to enable J-Link and st-link-v2 from userspace
+echo === Please enter your password if prompted
+sudo cp patches/*.rules /etc/udev/rules.d
+
+echo
+echo ===
+echo === Finished decompressing and patching $WICED_DIR for MXCHIP EMW
+echo === Use JTAG support from WICED for the green development board and J-Link
+echo === and use flash.sh for flashing via st-link-v2.
+echo === Refer to the README.md and the Github Wiki for other JTAG adapters.
+echo === Support is also available on our Gitter.im channel at: 
+echo === https://gitter.im/EMW3162/WICED_for_EMW3162
+echo ===
