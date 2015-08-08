@@ -43,6 +43,11 @@ cp -r patches/EMW3165 $WICED_DIR/platforms
 # patch $WICED_DIR/WICED/platform/MCU/wwd_platform_common.c patches/wwd_platform_common.c.patch
 
 echo
+echo === Generating a mac address
+perl $WICED_DIR/tools/mac_generator/mac_generator.pl > $WICED_DIR/generated_mac_address.txt
+
+
+echo
 echo === Patching the bootloader
 echo === This allows you to hold down buttons on the dev-board
 echo === to halt the bootloader. This allows you to flash the device
