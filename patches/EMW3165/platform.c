@@ -4,7 +4,7 @@
 #include "platform_isr.h"
 #include "platform_peripheral.h"
 #include "wwd_platform_common.h"
-#include "wwd_rtos.h"
+#include "wwd_rtos_isr.h"
 #include "wiced_defaults.h"
 #include "wiced_platform.h"
 
