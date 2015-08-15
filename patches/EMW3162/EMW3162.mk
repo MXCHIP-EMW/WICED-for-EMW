@@ -22,6 +22,8 @@ ifndef BUS
 BUS := SDIO
 endif
 
+EXTRA_TARGET_MAKEFILES +=  $(MAKEFILES_PATH)/standard_platform_targets.mk
+
 VALID_BUSES := SDIO
 
 WIFI_IMAGE_DOWNLOAD := direct
