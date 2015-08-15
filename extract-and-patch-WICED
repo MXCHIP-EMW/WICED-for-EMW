@@ -66,10 +66,12 @@ echo
 echo === Replacing the J-Link OpenOCD configuration with one that works
 cp patches/jlink.cfg $WICED_DIR/tools/OpenOCD
 
-echo 
-echo === Adding udev rules to enable J-Link and st-link-v2 from userspace
-echo === Please enter your password if prompted
-sudo cp patches/*.rules /etc/udev/rules.d
+if [ "`uname`" == "Linux" ]; then
+	echo 
+	echo === Adding udev rules to enable J-Link and st-link-v2 from userspace
+	echo === Please enter your password if prompted
+	sudo cp patches/*.rules /etc/udev/rules.d
+fi
 
 echo
 echo ===
