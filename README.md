@@ -1,4 +1,6 @@
 # WICED for MXCHIP EMW wireless ARM modules
+
+[![Join the chat at https://gitter.im/MXCHIP-EMW/WICED-for-EMW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MXCHIP-EMW/WICED-for-EMW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 *Support for EMW3162 and EMW3165*
 *This is still a bit fidgety, at least with flashing on EMW3165*
 *EMW3165 only has SWD interface, rather than full JTAG and work is being done to support that properly with the WICED flashing tools*
