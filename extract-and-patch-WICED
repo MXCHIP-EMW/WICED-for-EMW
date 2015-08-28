@@ -43,9 +43,9 @@ cp -r patches/EMW3165 $WICED_DIR/platforms
 # patch $WICED_DIR/WICED/platform/MCU/wwd_platform_common.c patches/wwd_platform_common.c.patch
 
 echo
-echo === Generating a mac address
-perl $WICED_DIR/tools/mac_generator/mac_generator.pl > $WICED_DIR/generated_mac_address.txt
-
+echo === Replacing WICED make binary with system one (see http://community.broadcom.com/message/17899#17899) 
+# Yea yea... you're not going to be using both anyway :p
+cp /usr/bin/make $WICED_DIR/tools/common/Linux(32|64)/make
 
 echo
 echo === Patching the bootloader
