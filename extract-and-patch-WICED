@@ -47,12 +47,18 @@ echo === Replacing WICED make binary with system one (see http://community.broad
 # Yea yea... you're not going to be using both anyway :p
 cp /usr/bin/make $WICED_DIR/tools/common/Linux(32|64)/make
 
-echo
-echo === Patching the bootloader
-echo === This allows you to hold down buttons on the dev-board
-echo === to halt the bootloader. This allows you to flash the device
-echo === even if the application uses the JTAG pins for something else.
-patch $WICED_DIR/apps/waf/bootloader/bootloader.c patches/bootloader.c.patch
+# -- Disabled until further notice. WICED_BUTTON2 is not on EMW3165
+#echo
+#echo === Patching the bootloader
+#echo === This allows you to hold down buttons on the dev-board
+#echo === to halt the bootloader. This allows you to flash the device
+#echo === even if the application uses the JTAG pins for something else.
+#patch $WICED_DIR/apps/waf/bootloader/bootloader.c patches/bootloader.c.patch
+
+echo 
+echo === Adding SWD and Stlink-v2 support
+echo === Use JTAG=stlink-v2 on the make command line to use Stlink-v2
+cp -r patches/OpenOCD/* $WICED_DIR/tools/OpenOCD
 
 echo
 echo === Copying utility scripts to $WICED_DIR
