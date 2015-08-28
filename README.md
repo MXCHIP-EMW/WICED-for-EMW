@@ -1,7 +1,8 @@
 # WICED for MXCHIP EMW wireless ARM modules
+*Supports EMW3162 and EMW3165*
 
 [![Join the chat at https://gitter.im/MXCHIP-EMW/WICED-for-EMW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MXCHIP-EMW/WICED-for-EMW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-(Join us)[http://www.emw3165.com/] on a forum dedicated to the EMW3165.
+[Join us](http://www.emw3165.com) on a forum dedicated to the EMW3165.
 
 * Download WICED_SDK_3.3.1.7z.zip from Broadcom. It requires registration on their site **with what Broadcom calls a "corporate" e-mail address, so you can't use GMail, Outlook.com or other such e-mail addresses**.
 * Place the file in this directory and run `./extract-and-patch-WICED`. This will decompress and patch WICED.
