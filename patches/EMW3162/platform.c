@@ -282,7 +282,7 @@ const wiced_spi_device_t wiced_spi_flash =
 #ifndef WICED_DISABLE_STDIO
 static platform_uart_config_t stdio_config =
 {
-    .baud_rate    = 115200,
+    .baud_rate    = 9600, //115200,
     .data_width   = DATA_WIDTH_8BIT,
     .parity       = NO_PARITY,
     .stop_bits    = STOP_BITS_1,
