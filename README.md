@@ -1,13 +1,11 @@
 # WICED for MXCHIP EMW wireless ARM modules
 
 [![Join the chat at https://gitter.im/MXCHIP-EMW/WICED-for-EMW](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MXCHIP-EMW/WICED-for-EMW?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+(Join us)[http://www.emw3165.com/] on a forum dedicated to the EMW3165.
 
-*Support for EMW3162 and EMW3165*
-
-Download WICED_SDK_3.3.1.7z.zip from Broadcom. It requires registration on their site **with what Broadcom calls a "corporate" e-mail address, so you can't use GMail, Outlook.com or other such e-mail addresses**.
-Place the file in this directory and run `./extract-and-patch-WICED`
-This will decompress and patch WICED.
-Enter the WICED-SDK-3.3.1 directory and run something like `./make EMW<module no>-LwIP-FreeRTOS-<app-dir>.<app-name> download run JTAG=<jtag-adapter>` to compile and flash.
+* Download WICED_SDK_3.3.1.7z.zip from Broadcom. It requires registration on their site **with what Broadcom calls a "corporate" e-mail address, so you can't use GMail, Outlook.com or other such e-mail addresses**.
+* Place the file in this directory and run `./extract-and-patch-WICED`. This will decompress and patch WICED.
+* Enter the WICED-SDK-3.3.1 directory and run something like `./make EMW<module no>-LwIP-FreeRTOS-<app-dir>.<app-name> download run JTAG=<jtag-adapter>` to compile and flash.
 
 Step by step:
 * Change into the SDK directory with `cd WICED-SDK-3.3.1`
@@ -26,6 +24,7 @@ You may need to hold down reset while starting the flashing process while using 
 
 * If the step above is successful, you should be able to see output via UART and see a wifi access point called `WICED Soft AP` with the password `abcd1234`.
 * You can now start playing around. I recommend looking into apps/snip/apsta to play around. WICED comes with loads of sample application, so, look around, hack around and make stuff happen.
+* Join us on Gitter for a chat if you experience any issues getting up and running.
 
 Make sure that the JTAG pins are not initialized to alternative functions unless you are ready to find an alternative to be able to flash the module again. Nb. There is a built in bootloader in the STM32 family of MCUs, that allows flashing over, among other things, UART. Refer to datasheets to find out how that works (or ask on the gitter channel).
 
@@ -46,5 +45,5 @@ SeeedStudio did not carry those headers when I last ordered a dev board.
 You will also require a couple of strips of regular headers to solder onto the development board as breakouts for the EMW3162 pins.
 The EMW3165 has a 1mm pin pitch and is soldered directly to the development board. The breakout pins on the development board are 2mm, for some reason and are not very convenient, as regular dupont connectors can't be side by side easily.
 
-(Join us)[http://www.emw3165.com/] on a forum dedicated to the EMW3165.
 ![Sample EMW3162 setup](https://raw.githubusercontent.com/MXCHIP-EMW/WICED-for-EMW/master/docs_and_libraries/green-dev-board-with-annotations.png)
+
