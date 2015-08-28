@@ -159,7 +159,8 @@ typedef enum
  ******************************************************/
 
 /* UART port used for standard I/O */
-#define STDIO_UART ( WICED_UART_1 ) // WICED_UART_1 is STM32F411CE USART2 (defined in platform.c)
+#define STDIO_UART ( WICED_UART_2 ) // WICED_UART_2 is STM32F411CE USART2 (defined in platform.c)
+									// Connected to the USB-UART chip on the MXCHIP devboard
 
 /* SPI flash is present on EMW3165 */
 #define WICED_PLATFORM_INCLUDES_SPI_FLASH
