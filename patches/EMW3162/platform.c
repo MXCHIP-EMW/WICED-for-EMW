@@ -362,11 +362,19 @@ void platform_init_external_devices( void )
         Note however that if you initialize alternative functionality of 
         JTAG and UART pins, you could lock yourself out of being able to flash
         new firmware.
-        Also, if WICED_BUTTON1 and WICED_BUTTON2 are not available, you are
-        unable to use the bootloader patch to halt execution in the bootloader,
-        a meathod to allow you to use JTAG for flashing even if you use those
-        pins for other things.
     */
+    
+    //patch added to resolve the microseconds delay hang issue.
+    do
+    {
+        // enable DWT hardware and cycle counting
+        CoreDebug->DEMCR = CoreDebug->DEMCR | CoreDebug_DEMCR_TRCENA_Msk;
+        // reset a counter
+        DWT->CYCCNT = 0;
+        // enable the counter
+        DWT->CTRL = (DWT->CTRL | DWT_CTRL_CYCCNTENA_Msk) ;
+    }
+    while(0);
 
     /* Initialise LEDs and turn off by default */
     platform_gpio_init( &platform_gpio_pins[WICED_LED1], OUTPUT_PUSH_PULL );

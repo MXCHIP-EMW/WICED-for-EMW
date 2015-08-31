@@ -388,6 +388,18 @@ void platform_init_external_devices( void )
         new firmware.
     */
 
+    //patch added to resolve the microseconds delay hang issue.
+    do
+    {
+        // enable DWT hardware and cycle counting
+        CoreDebug->DEMCR = CoreDebug->DEMCR | CoreDebug_DEMCR_TRCENA_Msk;
+        // reset a counter
+        DWT->CYCCNT = 0;
+        // enable the counter
+        DWT->CTRL = (DWT->CTRL | DWT_CTRL_CYCCNTENA_Msk) ;
+    }
+    while(0);
+
     /* Initialise button to input by default */
     platform_gpio_init( &platform_gpio_pins[WICED_BUTTON1], INPUT_PULL_UP );
 
