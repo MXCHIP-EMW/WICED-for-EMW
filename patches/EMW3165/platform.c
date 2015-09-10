@@ -92,41 +92,6 @@ const platform_gpio_t platform_gpio_pins[] =
 	//[WICED_GPIO_41]										// ANT - External antenna pad
 
 };
-//const platform_gpio_t platform_gpio_pins[] =
-//{
-//  /* Common GPIOs for internal use */
-//  [WICED_SYS_LED]                      = { GPIOB,  10 },
-//  [WICED_RF_LED]                       = { GPIOA,  4 },
-//  [BOOT_SEL]                          = { GPIOB,  1 },
-//  [MFG_SEL]                           = { GPIOB,  0 },
-//  [EasyLink_BUTTON]                   = { GPIOA,  1 },
-//  [STDIO_UART_RX]                     = { GPIOA,  3 },
-//  [STDIO_UART_TX]                     = { GPIOA,  2 },
-//  [FLASH_PIN_SPI_CS  ]                = { GPIOA, 15 },
-//  [FLASH_PIN_SPI_CLK ]                = { GPIOB,  3 },
-//  [FLASH_PIN_SPI_MOSI]                = { GPIOA,  7 },
-//  [FLASH_PIN_SPI_MISO]                = { GPIOB,  4 },
-//
-//  /* GPIOs for external use */
-//  [WICED_GPIO_2]                       = { GPIOB,  2 },
-//  [WICED_GPIO_8]                       = { GPIOA , 2 },
-//  [WICED_GPIO_9]                       = { GPIOA,  1 },
-//  [WICED_GPIO_12]                      = { GPIOA,  3 },
-//  [WICED_GPIO_16]                      = { GPIOC, 13 },
-//  [WICED_GPIO_17]                      = { GPIOB, 10 },
-//  [WICED_GPIO_18]                      = { GPIOB,  9 },
-//  [WICED_GPIO_19]                      = { GPIOB, 12 },
-//  [WICED_GPIO_27]                      = { GPIOA, 12 },
-//  [WICED_GPIO_29]                      = { GPIOA, 10 },
-//  [WICED_GPIO_30]                      = { GPIOB,  6 },
-//  [WICED_GPIO_31]                      = { GPIOB,  8 },
-//  [WICED_GPIO_33]                      = { GPIOB, 13 },
-//  [WICED_GPIO_34]                      = { GPIOA,  5 },
-//  [WICED_GPIO_35]                      = { GPIOA, 10 },
-//  [WICED_GPIO_36]                      = { GPIOB,  1 },
-//  [WICED_GPIO_37]                      = { GPIOB,  0 },
-//  [WICED_GPIO_38]                      = { GPIOA,  4 },
-//};
 
 /* ADC peripherals. Used WICED/platform/MCU/wiced_platform_common.c */
 const platform_adc_t platform_adc_peripherals[] =
@@ -147,7 +112,7 @@ const platform_adc_t platform_adc_peripherals[] =
 /* This is a sample config, refer to the datasheet to alternative configurations of timers and channels*/
 const platform_pwm_t platform_pwm_peripherals[] =
 {
-	[WICED_PWM_1]  = {TIM4, 1, RCC_APB1Periph_TIM4, GPIO_AF_TIM4, &platform_gpio_pins[WICED_GPIO_30]},
+    [WICED_PWM_1]  = {TIM4, 1, RCC_APB1Periph_TIM4, GPIO_AF_TIM4, &platform_gpio_pins[WICED_GPIO_30]},
     [WICED_PWM_2]  = {TIM4, 3, RCC_APB1Periph_TIM4, GPIO_AF_TIM4, &platform_gpio_pins[WICED_GPIO_31]},
     [WICED_PWM_3]  = {TIM4, 4, RCC_APB1Periph_TIM4, GPIO_AF_TIM4, &platform_gpio_pins[WICED_GPIO_18]},
     [WICED_PWM_4]  = {TIM2, 1, RCC_APB1Periph_TIM2, GPIO_AF_TIM2, &platform_gpio_pins[WICED_GPIO_34]},
@@ -314,7 +279,7 @@ const wiced_spi_device_t wiced_spi_flash =
 {
     .port        = WICED_SPI_1,
     .chip_select = WICED_SPI_FLASH_CS,
-    .speed       = 5000000,
+    .speed       = 50000000, // 50 MHz
     .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_NO_DMA | SPI_MSB_FIRST),
     .bits        = 8
 };
@@ -403,6 +368,14 @@ void platform_init_external_devices( void )
     /* Initialise button to input by default */
     platform_gpio_init( &platform_gpio_pins[WICED_BUTTON1], INPUT_PULL_UP );
 
+#ifndef GPIO_LED_NOT_SUPPORTED
+    /* Initialise LEDs and turn off by default */
+    platform_gpio_init( &platform_gpio_pins[WICED_LED1], OUTPUT_PUSH_PULL );
+    platform_gpio_init( &platform_gpio_pins[WICED_LED2], OUTPUT_PUSH_PULL );
+    platform_gpio_output_low( &platform_gpio_pins[WICED_LED1] );
+    platform_gpio_output_low( &platform_gpio_pins[WICED_LED2] );
+#endif
+
 #ifndef WICED_DISABLE_STDIO
     /* Initialise UART standard I/O */
     platform_stdio_init( &platform_uart_drivers[STDIO_UART], &platform_uart_peripherals[STDIO_UART], &stdio_config );
@@ -421,6 +394,7 @@ wiced_bool_t platform_check_factory_reset( void )
     {
         /* Factory reset button is being pressed. */
         /* User Must press it for 5 seconds to ensure it was not accidental */
+#ifndef GPIO_LED_NOT_SUPPORTED
         /* Toggle LED every 100ms */
 
         if ( led_state == 0 )
@@ -433,6 +407,7 @@ wiced_bool_t platform_check_factory_reset( void )
             platform_gpio_output_low( &platform_gpio_pins[ WICED_LED1 ] );
             led_state = 0;
         }
+#endif
         if ( factory_reset_counter == 5000 )
         {
             return WICED_TRUE;
