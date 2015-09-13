@@ -279,7 +279,7 @@ const wiced_spi_device_t wiced_spi_flash =
 {
     .port        = WICED_SPI_1,
     .chip_select = WICED_SPI_FLASH_CS,
-    .speed       = 50000000, // 50 MHz
+    .speed       = 20000000, // 50 MHz
     .mode        = (SPI_CLOCK_RISING_EDGE | SPI_CLOCK_IDLE_HIGH | SPI_NO_DMA | SPI_MSB_FIRST),
     .bits        = 8
 };
