@@ -397,6 +397,9 @@ wiced_bool_t platform_check_factory_reset( void )
         }
         if ( factory_reset_counter == 5000 )
         {
+#ifdef emw3162_bootloader_patch
+            if (!platform_gpio_input_get( &platform_gpio_pins[ WICED_BUTTON2 ]) while(1);
+#endif
             return WICED_TRUE;
         }
     }
