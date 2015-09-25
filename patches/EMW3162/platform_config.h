@@ -1,15 +1,5 @@
-/*
- * Copyright 2014, Broadcom Corporation
- * All Rights Reserved.
- *
- * This is UNPUBLISHED PROPRIETARY SOURCE CODE of Broadcom Corporation;
- * the contents of this file may not be disclosed to third parties, copied
- * or duplicated in any form, in whole or in part, without the prior
- * written permission of Broadcom Corporation.
- */
-
 /** @file
- * Defines internal configuration of the BCM943362WCD4 board
+ * Defines internal configuration of the EMW3162 board
  */
 #pragma once
 
@@ -85,15 +75,14 @@ extern "C" {
 /*  WLAN Powersave Clock Source
  *  The WLAN sleep clock can be driven from one of two sources:
  *  1. MCO (MCU Clock Output) - default
- *     NOTE: Versions of BCM943362WCD4 up to and including P200 require a hardware patch to enable this mode
- *     - Connect STM32F205RGT6 pin 41 (PA8) to pin 44 (PA11)
  *  2. WLAN 32K internal oscillator (30% inaccuracy)
  *     - Comment the following directive : WICED_USE_WIFI_32K_CLOCK_MCO
  */
 #define WICED_USE_WIFI_32K_CLOCK_MCO
 
 /*  OTA */
-#define PLATFORM_HAS_OTA
+// EMW3162 doesn't have a SPI flash chip
+//#define PLATFORM_HAS_OTA
 
 #ifdef __cplusplus
 } /* extern "C" */

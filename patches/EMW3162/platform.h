@@ -1,15 +1,6 @@
-/*
- * Copyright 2014, Broadcom Corporation
- * All Rights Reserved.
- *
- * This is UNPUBLISHED PROPRIETARY SOURCE CODE of Broadcom Corporation;
- * the contents of this file may not be disclosed to third parties, copied
- * or duplicated in any form, in whole or in part, without the prior
- * written permission of Broadcom Corporation.
- */
 
 /** @file
- * Defines peripherals available for use on BCM943362WCD4 board
+ * Defines peripherals available for use on EMW3162 board
  */
 #pragma once
 
@@ -134,7 +125,7 @@ typedef enum
 #define STDIO_UART ( WICED_UART_1 )
 
 /* SPI flash is NOT present on EMW3162 */
-#define WICED_PLATFORM_INCLUDES_SPI_FLASH
+//#define WICED_PLATFORM_INCLUDES_SPI_FLASH
 #define WICED_SPI_FLASH_CS ( WICED_GPIO_6 )
 
 /* Components connected to external I/Os */

@@ -39,35 +39,9 @@
  ******************************************************/
 
 /* GPIO pin table. Used by WICED/platform/MCU/wiced_platform_common.c */
-/*const platform_gpio_t platform_gpio_pins[] =
-{
-    [WICED_GPIO_1]  = { GPIOA, 11 },
-    [WICED_GPIO_2]  = { GPIOA, 12 },
-    [WICED_GPIO_3]  = { GPIOC,  6 },
-    [WICED_GPIO_4]  = { GPIOC,  7 },
-    [WICED_GPIO_5]  = { GPIOA,  3 },
-    [WICED_GPIO_6]  = { GPIOA,  5 },
-    [WICED_GPIO_7]  = { GPIOA,  6 },
-    [WICED_GPIO_8]  = { GPIOA,  7 },
-    [WICED_GPIO_9]  = { GPIOA,  9 },
-    [WICED_GPIO_10] = { GPIOA, 10 },
-    [WICED_GPIO_11] = { GPIOB,  0 },
-    [WICED_GPIO_12] = { GPIOB,  1 },
-    [WICED_GPIO_13] = { GPIOA, 13 },
-    [WICED_GPIO_14] = { GPIOA,  4 }, // SPI1_CS
-    [WICED_GPIO_15] = { GPIOB,  5 }, // SPI1_MOSI
-    [WICED_GPIO_16] = { GPIOB,  3 }, // SPI1_SCK
-    [WICED_GPIO_17] = { GPIOB,  4 }, // SPI MISO
-};*/
+
 const platform_gpio_t platform_gpio_pins[] =
 {
-  // /* Common GPIOs for internal use */
-  // [MICO_SYS_LED]                      = { GPIOB,  0 }, 
-  // [MICO_RF_LED]                       = { GPIOB,  1 }, //WICED_GPIO_16
-  // [BOOT_SEL]                          = { GPIOB,  1 }, //WICED_GPIO_16
-  // [MFG_SEL]                           = { GPIOB,  9 }, //WICED_GPIO_30
-  // [EasyLink_BUTTON]                   = { GPIOA,  1 }, //WICED_GPIO_11
-  
   /* GPIOs numbered like the pins on EMW3162 */
   [WICED_GPIO_0]  = { GPIOB,  0 }, // Green LED
   [WICED_GPIO_1]  = { GPIOB,  6 }, // I2C1_SCL

@@ -1,16 +1,6 @@
-/*
- * Copyright 2014, Broadcom Corporation
- * All Rights Reserved.
- *
- * This is UNPUBLISHED PROPRIETARY SOURCE CODE of Broadcom Corporation;
- * the contents of this file may not be disclosed to third parties, copied
- * or duplicated in any form, in whole or in part, without the prior
- * written permission of Broadcom Corporation.
- */
-
 /** @file
  *  NVRAM variables which define BCM43362 Parameters for the
- *  USI module used on the BCM943362WCD4_3 board
+ *  USI module used on the EMW3162 board
  *
  */
 

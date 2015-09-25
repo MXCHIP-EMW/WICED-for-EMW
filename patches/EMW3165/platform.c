@@ -386,7 +386,10 @@ void platform_init_external_devices( void )
 wiced_bool_t platform_check_factory_reset( void )
 {
     uint32_t factory_reset_counter = 0;
+#ifndef GPIO_LED_NOT_SUPPORTED
     int led_state = 0;
+#endif
+    
     while (  ( 0 == platform_gpio_input_get( &platform_gpio_pins[ WICED_BUTTON1 ] ) )
            &&( ( factory_reset_counter += PLATFORM_FACTORY_RESET_CHECK_PERIOD ) <= PLATFORM_FACTORY_RESET_TIMEOUT )
            &&( WICED_SUCCESS == (wiced_result_t)host_rtos_delay_milliseconds( PLATFORM_FACTORY_RESET_CHECK_PERIOD ) )
