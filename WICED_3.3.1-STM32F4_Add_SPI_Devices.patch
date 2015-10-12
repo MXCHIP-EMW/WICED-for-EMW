@@ -1,15 +1,15 @@
 diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h
 --- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h	2015-09-22 08:40:25.000000000 -0700
 +++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h	2015-09-22 21:44:09.000000000 -0700
-@@ -272,6 +272,8 @@
+@@ -277,6 +277,8 @@
+   * @brief   AF 6 selection  
    */ 
- #define GPIO_AF_SPI1          ((uint8_t)0x05)  /* SPI1 Alternate Function mapping */
- #define GPIO_AF_SPI2          ((uint8_t)0x05)  /* SPI2/I2S2 Alternate Function mapping */
-+#define GPIO_AF_SPI4          ((uint8_t)0x05)  /* SPI4 Alternate Function mapping */
-+#define GPIO_AF_SPI5          ((uint8_t)0x05)  /* SPI5 Alternate Function mapping */
+ #define GPIO_AF_SPI3          ((uint8_t)0x06)  /* SPI3/I2S3 Alternate Function mapping */
++#define GPIO_AF_SPI4          ((uint8_t)0x06)  /* SPI4 Alternate Function mapping */
++#define GPIO_AF_SPI5          ((uint8_t)0x06)  /* SPI5 Alternate Function mapping */
  
  /** 
-   * @brief   AF 6 selection  
+   * @brief   AF 7 selection  
 @@ -340,6 +342,7 @@
                            ((AF) == GPIO_AF_I2C3)      || ((AF) == GPIO_AF_SPI1)   || \
                            ((AF) == GPIO_AF_SPI2)      || ((AF) == GPIO_AF_TIM13)  || \
@@ -61,8 +61,8 @@ diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libr
    *            @arg GPIO_AF_SPI1: Connect SPI1 pins to AF5
    *            @arg GPIO_AF_SPI2: Connect SPI2/I2S2 pins to AF5
    *            @arg GPIO_AF_SPI3: Connect SPI3/I2S3 pins to AF6
-+  *            @arg GPIO_AF_SPI4: Connect SPI4 pins to AF5
-+  *            @arg GPIO_AF_SPI5: Connect SPI5 pins to AF5
++  *            @arg GPIO_AF_SPI4: Connect SPI4 pins to AF6
++  *            @arg GPIO_AF_SPI5: Connect SPI5 pins to AF6
    *            @arg GPIO_AF_I2S3ext: Connect I2S3ext pins to AF7
    *            @arg GPIO_AF_USART1: Connect USART1 pins to AF7
    *            @arg GPIO_AF_USART2: Connect USART2 pins to AF7
