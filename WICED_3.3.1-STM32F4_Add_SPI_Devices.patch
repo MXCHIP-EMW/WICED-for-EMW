@@ -1,0 +1,323 @@
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_gpio.h	2015-09-22 21:44:09.000000000 -0700
+@@ -272,6 +272,8 @@
+   */ 
+ #define GPIO_AF_SPI1          ((uint8_t)0x05)  /* SPI1 Alternate Function mapping */
+ #define GPIO_AF_SPI2          ((uint8_t)0x05)  /* SPI2/I2S2 Alternate Function mapping */
++#define GPIO_AF_SPI4          ((uint8_t)0x05)  /* SPI4 Alternate Function mapping */
++#define GPIO_AF_SPI5          ((uint8_t)0x05)  /* SPI5 Alternate Function mapping */
+ 
+ /** 
+   * @brief   AF 6 selection  
+@@ -340,6 +342,7 @@
+                           ((AF) == GPIO_AF_I2C3)      || ((AF) == GPIO_AF_SPI1)   || \
+                           ((AF) == GPIO_AF_SPI2)      || ((AF) == GPIO_AF_TIM13)  || \
+                           ((AF) == GPIO_AF_SPI3)      || ((AF) == GPIO_AF_TIM14)  || \
++                          ((AF) == GPIO_AF_SPI4)      || ((AF) == GPIO_AF_SPI5)   || \
+                           ((AF) == GPIO_AF_USART1)    || ((AF) == GPIO_AF_USART2) || \
+                           ((AF) == GPIO_AF_USART3)    || ((AF) == GPIO_AF_UART4)  || \
+                           ((AF) == GPIO_AF_UART5)     || ((AF) == GPIO_AF_USART6) || \
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_rcc.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_rcc.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_rcc.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_rcc.h	2015-09-24 18:10:49.000000000 -0700
+@@ -351,10 +351,12 @@
+ #define RCC_APB2Periph_ADC3              ((uint32_t)0x00000400)
+ #define RCC_APB2Periph_SDIO              ((uint32_t)0x00000800)
+ #define RCC_APB2Periph_SPI1              ((uint32_t)0x00001000)
++#define RCC_APB2Periph_SPI4              ((uint32_t)0x00002000)
+ #define RCC_APB2Periph_SYSCFG            ((uint32_t)0x00004000)
+ #define RCC_APB2Periph_TIM9              ((uint32_t)0x00010000)
+ #define RCC_APB2Periph_TIM10             ((uint32_t)0x00020000)
+ #define RCC_APB2Periph_TIM11             ((uint32_t)0x00040000)
++#define RCC_APB2Periph_SPI5              ((uint32_t)0x00100000)
+ #define IS_RCC_APB2_PERIPH(PERIPH) ((((PERIPH) & 0xFFF8A0CC) == 0x00) && ((PERIPH) != 0x00))
+ #define IS_RCC_APB2_RESET_PERIPH(PERIPH) ((((PERIPH) & 0xFFF8A6CC) == 0x00) && ((PERIPH) != 0x00))
+ /**
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_spi.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_spi.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_spi.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/inc/stm32f4xx_spi.h	2015-09-22 21:38:14.000000000 -0700
+@@ -118,11 +118,15 @@
+ 
+ #define IS_SPI_ALL_PERIPH(PERIPH) (((PERIPH) == SPI1) || \
+                                    ((PERIPH) == SPI2) || \
+-                                   ((PERIPH) == SPI3))
++                                   ((PERIPH) == SPI3) || \
++                                   ((PERIPH) == SPI4) || \
++                                   ((PERIPH) == SPI5))
+ 
+ #define IS_SPI_ALL_PERIPH_EXT(PERIPH) (((PERIPH) == SPI1) || \
+                                        ((PERIPH) == SPI2) || \
+                                        ((PERIPH) == SPI3) || \
++                                       ((PERIPH) == SPI4) || \
++                                       ((PERIPH) == SPI5) || \
+                                        ((PERIPH) == I2S2ext) || \
+                                        ((PERIPH) == I2S3ext))
+ 
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_gpio.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_gpio.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_gpio.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_gpio.c	2015-09-24 17:45:23.000000000 -0700
+@@ -510,6 +510,8 @@
+   *            @arg GPIO_AF_SPI1: Connect SPI1 pins to AF5
+   *            @arg GPIO_AF_SPI2: Connect SPI2/I2S2 pins to AF5
+   *            @arg GPIO_AF_SPI3: Connect SPI3/I2S3 pins to AF6
++  *            @arg GPIO_AF_SPI4: Connect SPI4 pins to AF5
++  *            @arg GPIO_AF_SPI5: Connect SPI5 pins to AF5
+   *            @arg GPIO_AF_I2S3ext: Connect I2S3ext pins to AF7
+   *            @arg GPIO_AF_USART1: Connect USART1 pins to AF7
+   *            @arg GPIO_AF_USART2: Connect USART2 pins to AF7
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_rcc.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_rcc.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_rcc.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_rcc.c	2015-09-30 21:20:26.000000000 -0700
+@@ -1233,6 +1233,8 @@
+   *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+   *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+   *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
++  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock
++  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+   * @param  NewState: new state of the specified peripheral clock.
+   *          This parameter can be: ENABLE or DISABLE.
+   * @retval None
+@@ -1408,6 +1410,8 @@
+   *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+   *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+   *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
++  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock
++  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+   * @param  NewState: new state of the specified peripheral reset.
+   *          This parameter can be: ENABLE or DISABLE.
+   * @retval None
+@@ -1603,6 +1607,8 @@
+   *            @arg RCC_APB2Periph_TIM9:   TIM9 clock
+   *            @arg RCC_APB2Periph_TIM10:  TIM10 clock
+   *            @arg RCC_APB2Periph_TIM11:  TIM11 clock
++  *            @arg RCC_APB2Periph_SPI4:   SPI4 clock
++  *            @arg RCC_APB2Periph_SPI5:   SPI5 clock
+   * @param  NewState: new state of the specified peripheral clock.
+   *          This parameter can be: ENABLE or DISABLE.
+   * @retval None
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_spi.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_spi.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_spi.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/src/stm32f4xx_spi.c	2015-09-30 21:19:58.000000000 -0700
+@@ -23,6 +23,8 @@
+   *             RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE) for SPI1
+   *             RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2, ENABLE) for SPI2
+   *             RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE) for SPI3.
++  *             RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI4, ENABLE) for SPI4.
++  *             RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI5, ENABLE) for SPI5.
+   *
+   *          2. Enable SCK, MOSI, MISO and NSS GPIO clocks using RCC_AHB1PeriphClockCmd()
+   *             function.
+@@ -239,16 +241,27 @@
+     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, ENABLE);
+     /* Release SPI2 from reset state */
+     RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI2, DISABLE);
+-    }
+-  else
++  }
++  else if (SPIx == SPI3)
+   {
+-    if (SPIx == SPI3)
+-    {
+-      /* Enable SPI3 reset state */
+-      RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
+-      /* Release SPI3 from reset state */
+-      RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
+-    }
++    /* Enable SPI3 reset state */
++    RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, ENABLE);
++    /* Release SPI3 from reset state */
++    RCC_APB1PeriphResetCmd(RCC_APB1Periph_SPI3, DISABLE);
++  }
++  else if (SPIx == SPI4)
++  {
++    /* Enable SPI4 reset state */
++    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI4, ENABLE);
++    /* Release SPI4 from reset state */
++    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI4, DISABLE);
++  }
++  else if (SPIx == SPI5)
++  {
++    /* Enable SPI5 reset state */
++    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI5, ENABLE);
++    /* Release SPI5 from reset state */
++    RCC_APB2PeriphResetCmd(RCC_APB2Periph_SPI5, DISABLE);
+   }
+ }
+ 
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/stm32f4xx.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/stm32f4xx.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/libraries/stm32f4xx.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/libraries/stm32f4xx.h	2015-09-24 18:26:14.000000000 -0700
+@@ -235,8 +235,10 @@
+   OTG_HS_IRQn                 = 77,     /*!< USB OTG HS global interrupt                                       */
+   DCMI_IRQn                   = 78,     /*!< DCMI global interrupt                                             */
+   CRYP_IRQn                   = 79,     /*!< CRYP crypto global interrupt                                      */
+-  HASH_RNG_IRQn               = 80,      /*!< Hash and Rng global interrupt                                     */
+-  FPU_IRQn                    = 81      /*!< FPU global interrupt                                              */
++  HASH_RNG_IRQn               = 80,     /*!< Hash and Rng global interrupt                                     */
++  FPU_IRQn                    = 81,     /*!< FPU global interrupt                                              */
++  SPI4_IRQn                   = 84,     /*!< SPI4 global Interrupt                                             */
++  SPI5_IRQn                   = 85      /*!< SPI5 global Interrupt                                             */
+ } IRQn_Type;
+ 
+ /**
+@@ -1071,11 +1073,13 @@
+ #define ADC_BASE              (APB2PERIPH_BASE + 0x2300)
+ #define SDIO_BASE             (APB2PERIPH_BASE + 0x2C00)
+ #define SPI1_BASE             (APB2PERIPH_BASE + 0x3000)
++#define SPI4_BASE             (APB2PERIPH_BASE + 0x3400)
+ #define SYSCFG_BASE           (APB2PERIPH_BASE + 0x3800)
+ #define EXTI_BASE             (APB2PERIPH_BASE + 0x3C00)
+ #define TIM9_BASE             (APB2PERIPH_BASE + 0x4000)
+ #define TIM10_BASE            (APB2PERIPH_BASE + 0x4400)
+ #define TIM11_BASE            (APB2PERIPH_BASE + 0x4800)
++#define SPI5_BASE             (APB2PERIPH_BASE + 0x5000)
+ 
+ /*!< AHB1 peripherals */
+ #define GPIOA_BASE            (AHB1PERIPH_BASE + 0x0000)
+@@ -1152,6 +1156,8 @@
+ #define I2S2ext             ((SPI_TypeDef *) I2S2ext_BASE)
+ #define SPI2                ((SPI_TypeDef *) SPI2_BASE)
+ #define SPI3                ((SPI_TypeDef *) SPI3_BASE)
++#define SPI4                ((SPI_TypeDef *) SPI4_BASE)
++#define SPI5                ((SPI_TypeDef *) SPI5_BASE)
+ #define I2S3ext             ((SPI_TypeDef *) I2S3ext_BASE)
+ #define USART2              ((USART_TypeDef *) USART2_BASE)
+ #define USART3              ((USART_TypeDef *) USART3_BASE)
+@@ -4981,8 +4987,8 @@
+ #define  RCC_APB1RSTR_TIM13RST               ((uint32_t)0x00000080)
+ #define  RCC_APB1RSTR_TIM14RST               ((uint32_t)0x00000100)
+ #define  RCC_APB1RSTR_WWDGEN                 ((uint32_t)0x00000800)
+-#define  RCC_APB1RSTR_SPI2RST                ((uint32_t)0x00008000)
+-#define  RCC_APB1RSTR_SPI3RST                ((uint32_t)0x00010000)
++#define  RCC_APB1RSTR_SPI2RST                ((uint32_t)0x00004000)
++#define  RCC_APB1RSTR_SPI3RST                ((uint32_t)0x00008000)
+ #define  RCC_APB1RSTR_USART2RST              ((uint32_t)0x00020000)
+ #define  RCC_APB1RSTR_USART3RST              ((uint32_t)0x00040000)
+ #define  RCC_APB1RSTR_UART4RST               ((uint32_t)0x00080000)
+@@ -5003,10 +5009,12 @@
+ #define  RCC_APB2RSTR_ADCRST                 ((uint32_t)0x00000100)
+ #define  RCC_APB2RSTR_SDIORST                ((uint32_t)0x00000800)
+ #define  RCC_APB2RSTR_SPI1RST                ((uint32_t)0x00001000)
++#define  RCC_APB2RSTR_SPI4RST                ((uint32_t)0x00002000)
+ #define  RCC_APB2RSTR_SYSCFGRST              ((uint32_t)0x00004000)
+ #define  RCC_APB2RSTR_TIM9RST                ((uint32_t)0x00010000)
+ #define  RCC_APB2RSTR_TIM10RST               ((uint32_t)0x00020000)
+ #define  RCC_APB2RSTR_TIM11RST               ((uint32_t)0x00040000)
++#define  RCC_APB2RSTR_SPI5RST                ((uint32_t)0x00100000)
+ /* Old SPI1RST bit definition, maintained for legacy purpose */
+ #define  RCC_APB2RSTR_SPI1                   RCC_APB2RSTR_SPI1RST
+ 
+@@ -5077,8 +5085,10 @@
+ #define  RCC_APB2ENR_ADC3EN                  ((uint32_t)0x00000400)
+ #define  RCC_APB2ENR_SDIOEN                  ((uint32_t)0x00000800)
+ #define  RCC_APB2ENR_SPI1EN                  ((uint32_t)0x00001000)
++#define  RCC_APB2ENR_SPI4EN                  ((uint32_t)0x00002000)
+ #define  RCC_APB2ENR_SYSCFGEN                ((uint32_t)0x00004000)
+ #define  RCC_APB2ENR_TIM11EN                 ((uint32_t)0x00040000)
++#define  RCC_APB2ENR_SPI5EN                  ((uint32_t)0x00100000)
+ #define  RCC_APB2ENR_TIM10EN                 ((uint32_t)0x00020000)
+ #define  RCC_APB2ENR_TIM9EN                  ((uint32_t)0x00010000)
+ 
+@@ -5151,10 +5161,12 @@
+ #define  RCC_APB2LPENR_ADC3LPEN              ((uint32_t)0x00000400)
+ #define  RCC_APB2LPENR_SDIOLPEN              ((uint32_t)0x00000800)
+ #define  RCC_APB2LPENR_SPI1LPEN              ((uint32_t)0x00001000)
++#define  RCC_APB2LPENR_SPI4LPEN              ((uint32_t)0x00002000)
+ #define  RCC_APB2LPENR_SYSCFGLPEN            ((uint32_t)0x00004000)
+ #define  RCC_APB2LPENR_TIM9LPEN              ((uint32_t)0x00010000)
+ #define  RCC_APB2LPENR_TIM10LPEN             ((uint32_t)0x00020000)
+ #define  RCC_APB2LPENR_TIM11LPEN             ((uint32_t)0x00040000)
++#define  RCC_APB2LPENR_SPI5LPEN              ((uint32_t)0x00100000)
+ 
+ /********************  Bit definition for RCC_BDCR register  ******************/
+ #define  RCC_BDCR_LSEON                      ((uint32_t)0x00000001)
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/platform_mcu_peripheral.h	2015-09-24 17:47:06.000000000 -0700
+@@ -60,8 +60,8 @@
+ #define STDIO_BUFFER_SIZE         (64)
+ #endif
+ 
+-/* SPI1 to SPI3 */
+-#define NUMBER_OF_SPI_PORTS       (3)
++/* SPI1 to SPI5 */
++#define NUMBER_OF_SPI_PORTS       (5)
+ 
+ /******************************************************
+  *                   Enumerations
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c	2015-09-30 19:57:31.000000000 -0700
+@@ -79,6 +79,8 @@
+     [0] = RCC_APB2PeriphClockCmd,
+     [1] = RCC_APB1PeriphClockCmd,
+     [2] = RCC_APB1PeriphClockCmd,
++    [3] = RCC_APB2PeriphClockCmd,
++    [4] = RCC_APB2PeriphClockCmd,
+ };
+ 
+ /* SPI peripheral clocks */
+@@ -87,6 +89,8 @@
+     [0] = RCC_APB2Periph_SPI1,
+     [1] = RCC_APB1Periph_SPI2,
+     [2] = RCC_APB1Periph_SPI3,
++    [3] = RCC_APB2Periph_SPI4,
++    [4] = RCC_APB2Periph_SPI5,
+ };
+ 
+ /******************************************************
+@@ -107,6 +111,14 @@
+     {
+         return 2;
+     }
++    else if ( spi == SPI4 )
++    {
++        return 3;
++    }
++    else if ( spi == SPI5 )
++    {
++        return 4;
++    }
+     else
+     {
+         return INVALID_UART_PORT_NUMBER;
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h	2015-09-25 18:59:20.000000000 -0700
+@@ -108,6 +108,8 @@
+ extern void SDIO_irq               ( void );  // SDIO
+ extern void TIM5_irq               ( void );  // TIM5
+ extern void SPI3_irq               ( void );  // SPI3
++extern void SPI4_irq               ( void );  // SPI4
++extern void SPI5_irq               ( void );  // SPI5
+ extern void UART4_irq              ( void );  // UART4
+ extern void UART5_irq              ( void );  // UART5
+ extern void TIM6_DAC_irq           ( void );  // TIM6 and DAC1&2 underrun errors
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c	2015-09-24 18:02:15.000000000 -0700
+@@ -132,6 +132,8 @@
+ PLATFORM_SET_DEFAULT_ISR( SDIO_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( TIM5_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( SPI3_irq               , UnhandledInterrupt )
++PLATFORM_SET_DEFAULT_ISR( SPI4_irq               , UnhandledInterrupt )
++PLATFORM_SET_DEFAULT_ISR( SPI5_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( UART4_irq              , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( UART5_irq              , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( TIM6_DAC_irq           , UnhandledInterrupt )
+diff -u -Naur WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_vector_table.c WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_vector_table.c
+--- WICED-SDK-3.3.1.orig/WICED/platform/MCU/STM32F4xx/platform_vector_table.c	2015-09-22 08:40:25.000000000 -0700
++++ WICED-SDK-3.3.1/WICED/platform/MCU/STM32F4xx/platform_vector_table.c	2015-09-25 20:03:03.000000000 -0700
+@@ -164,6 +164,11 @@
+     (uint32_t)DCMI_irq              , // DCMI
+     (uint32_t)CRYP_irq              , // CRYP crypto
+     (uint32_t)HASH_RNG_irq          , // Hash and Rng
++    (uint32_t)0                     , // Reserved (FPU)
++    (uint32_t)0                     , // Reserved
++    (uint32_t)0                     , // Reserved
++    (uint32_t)SPI4_irq              , // SPI4
++    (uint32_t)SPI5_irq              , // SPI5
+ };
+ 
+ /******************************************************
