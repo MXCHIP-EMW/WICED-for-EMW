@@ -36,7 +36,9 @@ Some documentation, schematics (though EMW3165 schematics are not available), li
 
 The official Broadcom WICED site is a great resource for all things WICED. Search their forum and check out their blogs for answers to most of your WICED questions. Instructions on setting up Eclipse and debugging can be found on their blog.
 
-You can get all the supported modules at Seeedstudio
+[See also for setup directions with pictures and photos](http://www.seeedstudio.com/recipe/344-programming-emw3165-with-broadcom-wiced-and-gcc.html)
+
+You can get most of what you need at Seeedstudio:
 * [EMW3165 - Cortex-M4 based WiFi SoC Module](http://www.seeedstudio.com/depot/EMW3165-CortexM4-based-WiFi-SoC-Module-p-2488.html)
 * [EMWE - 3165 - A Development Board _(Requires external JTAG adapter like ST-Link V2, Segger J-Link or equivalent)_](http://www.seeedstudio.com/depot/EMWE-3165-A-Development-Board-p-2489.html)
 * [EMW3162 WiFi Module](http://www.seeedstudio.com/depot/EMW3162-WiFi-Module-p-2122.html)
@@ -45,11 +47,16 @@ You can get all the supported modules at Seeedstudio
 * [EMB-380-S2 Development Board (aka. black board) _(Requires external JTAG adapter like ST-Link V2, Segger J-Link or equivalent)_](http://www.seeedstudio.com/depot/EMB380S2-Development-Board-p-2146.html)
 * [ST-Link V2 for STM8 STM32 interface programmer - _Best supported programmer for this project and it's cheap_](http://www.seeedstudio.com/depot/STLink-V2-for-STM8-STM32-interface-programmer-p-2297.html)
 * [Breadboard friendly breakout board for EMW3165](http://www.emw3165.com/viewtopic.php?f=11&t=12)
+ 
+Various things to keep in mind with regards to the hardware:
+- The EMW3165 has a 1mm pin pitch and is soldered directly to the EMWE development board. The breakout pins on the development board are 2mm, for some reason and are not very convenient, as regular dupont connectors can't be side by side easily. The board is handy for playing around with the module without external connections, but the breadboard friendly breakout board referenced above is better for playing around with the module with other hardware. You'll need an USB-UART adapter and a 3.3v power source if you plan to use the breadboard friendly breakout board.
+- Both EMW3162 development boards come with headers to solder on to an EMW3162. If you plan on using more than one EMW3162 with a development board, you need to source 2mm headers. The most common type of header are 2.54mm and those don't fit the module. You will require a couple of strips of regular 2.54mm headers to solder onto the development board as breakouts for the EMW3162 pins.
 
-Both EMW3162 development boards come with headers to solder on to an EMW3162. If you plan on using more than one EMW3162 with a development board, you need to source 2mm headers. The most common type of header are 2.54mm and those don't fit.
-SeeedStudio did not carry those headers when I last ordered a dev board.
-You will also require a couple of strips of regular headers to solder onto the development board as breakouts for the EMW3162 pins.
-The EMW3165 has a 1mm pin pitch and is soldered directly to the development board. The breakout pins on the development board are 2mm, for some reason and are not very convenient, as regular dupont connectors can't be side by side easily.
+Known issues:
+- SPI4 and SPI5 do not work on EMW3165. See #13 and #9 for workaround.
+- Factory reset and over the air updates do not work on EMW3165. Those should work on EMW3162 if you add the SPI flash chip yourself, as the module does not come with one. See #6 for status.
+- Flashing does not work on Windows. This is an OpenOCD and libusb issue. Directions on how to make this work are appreciated. For now we recommend that Windows users use a virtual machine running Linux.
 
+*Sample EMW3162 setup, with the green development board that has embedded JTAG, hooked up to a SPI flash for OTA support and a few peripherals:*
 ![Sample EMW3162 setup](https://raw.githubusercontent.com/MXCHIP-EMW/WICED-for-EMW/master/docs_and_libraries/green-dev-board-with-annotations.png)
 
