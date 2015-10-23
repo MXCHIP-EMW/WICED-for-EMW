@@ -1,11 +1,10 @@
 sudo: false
 language: c
 env:
-	- LC_ALL=CS
+  - LC_ALL=CS
 install:
-	- wget https://github.com/emilf/travis-ci-deps-for-emw/blob/master/deps.zip?raw=true
-	- 7z e -y -pqwerty12345 deps.zip
-install:
-	- ./extract-and-patch-WICED
+  - wget https://github.com/emilf/travis-ci-deps-for-emw/blob/master/deps.zip?raw=true
+  - 7z e -y -pqwerty12345 deps.zip
+  - ./extract-and-patch-WICED
 script:
-	- ./make EMW3165-FreeRTOS-LwIP-snip.apsta
+  - ./make EMW3165-FreeRTOS-LwIP-snip.apsta
