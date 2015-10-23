@@ -14,17 +14,11 @@ env:
   # You need to add the two leading spaces on each line.
   # This is not generated dynamically, so builds can run in parallel.
 
-  - APP=demo.apollo_audio
   - APP=demo.appliance
-  - APP=demo.bt_internet_gateway
-  - APP=demo.mode_test
-  - APP=demo.temp_control
   - APP=snip.amqp
   - APP=snip.amqps
   - APP=snip.ap_clients_rssi
   - APP=snip.apsta
-  - APP=snip.bluetooth
-  - APP=snip.bluetooth_audio
   - APP=snip.config_mode
   - APP=snip.crypto
   - APP=snip.dct_read_write
@@ -35,19 +29,14 @@ env:
   - APP=snip.link_status
   - APP=snip.mqtt_publisher
   - APP=snip.mqtt_subscriber
-  - APP=snip.nfc
   - APP=snip.ota_fr
-  - APP=snip.ota_test
   - APP=snip.packet_filter
-  - APP=snip.ping_ethernet
   - APP=snip.ping_powersave
   - APP=snip.ping_webserver
-  - APP=snip.powercycle
   - APP=snip.scan
   - APP=snip.security_types
   - APP=snip.service_discovery
   - APP=snip.sntp_get_time
-  - APP=snip.spi_slave
   - APP=snip.stack_overflow
   - APP=snip.stdio
   - APP=snip.tcp_client
@@ -61,17 +50,15 @@ env:
   - APP=snip.udp_transmit
   - APP=snip.wps_enrollee
   - APP=snip.wps_registrar
-  - APP=test.bt_mfg_test
-  - APP=test.console
   - APP=test.iperf_app
   - APP=test.mfg_test
-  - APP=waf.bootloader
-  - APP=waf.sflash_write
-  - APP=waf.tiny_bootloader
   - APP=wwd.appliance
-  - APP=wwd.canned_send
   - APP=wwd.ping
   - APP=wwd.scan
+matrix:
+  allow_failures:
+  	- env: APP=snip.gpio
+  	- env: 
 script:
-  - ./make EMW3165-FreeRTOS-LwIP-$APP
-  - ./make EMW3162-FreeRTOS-LwIP-$APP
+  - ./make EMW3165-FreeRTOS-LwIP-debug-$APP
+  - ./make EMW3162-FreeRTOS-LwIP-debug-$APP
