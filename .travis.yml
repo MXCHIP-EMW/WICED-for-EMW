@@ -5,7 +5,7 @@ env:
 addons:
   apt:
     packages:
-    - 7z
+    - p7zip
 install:
   - wget https://github.com/emilf/travis-ci-deps-for-emw/blob/master/deps.zip?raw=true
   - 7z e -y -pqwerty12345 deps.zip
