@@ -9,9 +9,6 @@ install:
   - ./extract-and-patch-WICED
   - cd WICED-SDK-3.3.1
 env:
-  - EMW316X=EMW3165
-  - EMW316X=EMW3162
-
   # Generated in bash with:
   # for i in $(ls -d */*/); do echo - APP="${i%%/}"; done | cut -f1,2 -d'/' --output-delimiter=.
   # You need to add the two leading spaces on each line.
@@ -75,7 +72,6 @@ env:
   - APP=wwd.canned_send
   - APP=wwd.ping
   - APP=wwd.scan
-  - DEBUG=-debug
-  - DEBUG=
 script:
-  - ./make $EMW316X-FreeRTOS-LwIP-$APP$DEBUG
+  - ./make EMW3165-FreeRTOS-LwIP-$APP
+  - ./make EMW3162-FreeRTOS-LwIP-$APP
