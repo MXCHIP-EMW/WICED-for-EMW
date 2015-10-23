@@ -1,6 +1,7 @@
 # WICED for MXCHIP EMW wireless ARM modules
 *Supports EMW3162 and EMW3165*
-[![Build Status](https://travis-ci.org/MXCHIP-EMW/WICED-for-EMW.svg)](https://travis-ci.org/MXCHIP-EMW/WICED-for-EMW)
+
+Travis CI Build Status: [![Build Status](https://travis-ci.org/MXCHIP-EMW/WICED-for-EMW.svg)](https://travis-ci.org/MXCHIP-EMW/WICED-for-EMW)
 
 *The MXCHIP-EMW Github organization entity is not run by or affiliated with MXCHIP. Use sales@mxchip.com to contact MXCHIP*
 
