@@ -8,4 +8,4 @@ install:
   - 7z e -y -pqwerty12345 deps.zip
   - ./extract-and-patch-WICED
 script:
-  - ./make EMW3165-FreeRTOS-LwIP-snip.apsta
+  - cd WICED-SDK-3.3.1 && ./make EMW3165-FreeRTOS-LwIP-snip.apsta
