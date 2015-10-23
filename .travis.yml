@@ -11,5 +11,71 @@ install:
 env:
   - EMW316X=EMW3165
   - EMW316X=EMW3162
+
+  # Generated in bash with:
+  # for i in $(ls -d */*/); do echo - APP="${i%%/}"; done | cut -f1,2 -d'/' --output-delimiter=.
+  # You need to add the two leading spaces on each line.
+  # This is not generated dynamically, so builds can run in parallel.
+
+  - APP=demo.apollo_audio
+  - APP=demo.appliance
+  - APP=demo.bt_internet_gateway
+  - APP=demo.mode_test
+  - APP=demo.temp_control
+  - APP=snip.amqp
+  - APP=snip.amqps
+  - APP=snip.ap_clients_rssi
+  - APP=snip.apsta
+  - APP=snip.bluetooth
+  - APP=snip.bluetooth_audio
+  - APP=snip.config_mode
+  - APP=snip.crypto
+  - APP=snip.dct_read_write
+  - APP=snip.email
+  - APP=snip.gpio
+  - APP=snip.https_client
+  - APP=snip.keep_alive
+  - APP=snip.link_status
+  - APP=snip.mqtt_publisher
+  - APP=snip.mqtt_subscriber
+  - APP=snip.nfc
+  - APP=snip.ota_fr
+  - APP=snip.ota_test
+  - APP=snip.packet_filter
+  - APP=snip.ping_ethernet
+  - APP=snip.ping_powersave
+  - APP=snip.ping_webserver
+  - APP=snip.powercycle
+  - APP=snip.scan
+  - APP=snip.security_types
+  - APP=snip.service_discovery
+  - APP=snip.sntp_get_time
+  - APP=snip.spi_slave
+  - APP=snip.stack_overflow
+  - APP=snip.stdio
+  - APP=snip.tcp_client
+  - APP=snip.tcp_client_powersave
+  - APP=snip.tcp_server
+  - APP=snip.tcp_server_async
+  - APP=snip.tftp
+  - APP=snip.thread_monitor
+  - APP=snip.uart
+  - APP=snip.udp_receive
+  - APP=snip.udp_transmit
+  - APP=snip.wps_enrollee
+  - APP=snip.wps_registrar
+  - APP=test.bt_mfg_test
+  - APP=test.console
+  - APP=test.iperf_app
+  - APP=test.mfg_test
+  - APP=waf.bootloader
+  - APP=waf.sflash_write
+  - APP=waf.tiny_bootloader
+  - APP=wwd.appliance
+  - APP=wwd.canned_send
+  - APP=wwd.ping
+  - APP=wwd.scan
+  - DEBUG=-debug
+  - DEBUG=
 script:
-  - ./make $EMW316X-FreeRTOS-LwIP-snip.apsta
+  - ./make $EMW316X-FreeRTOS-LwIP-$APP$DEBUG
