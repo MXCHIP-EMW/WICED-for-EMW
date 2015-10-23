@@ -8,6 +8,8 @@ install:
   - 7z e -y -pqwerty12345 deps.zip
   - ./extract-and-patch-WICED
   - cd WICED-SDK-3.3.1
+env:
+  - EMW316X=EMW3165
+  - EMW316X=EMW3162
 script:
-  - ./make EMW3165-FreeRTOS-LwIP-snip.apsta
-  - ./make EMW3162-FreeRTOS-LwIP-snip.apsta
+  - ./make $EMW316X-FreeRTOS-LwIP-snip.apsta
