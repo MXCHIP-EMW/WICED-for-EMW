@@ -4,7 +4,7 @@ addons:
     packages:
     - p7zip-full
 install:
-  - curl https://github.com/emilf/travis-ci-deps-for-emw/blob/master/deps.zip?raw=true -o deps.zip
+  - curl https://github.com/emilf/travis-ci-deps-for-emw/raw/master/deps.zip -o deps.zip
   - 7z e -y -pqwerty12345 deps.zip
   - ./extract-and-patch-WICED
 script:
