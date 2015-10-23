@@ -57,7 +57,7 @@ env:
   - APP=wwd.scan
 matrix:
   allow_failures:
-  	env: "APP=snip.gpio"
+    - env: "APP=snip.gpio"
 script:
   - ./make EMW3165-FreeRTOS-LwIP-debug-$APP
   - ./make EMW3162-FreeRTOS-LwIP-debug-$APP
