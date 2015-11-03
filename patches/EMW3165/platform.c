@@ -153,6 +153,118 @@ const platform_spi_t platform_spi_peripherals[] =
       .complete_flags             = DMA_LISR_TCIF0,
       .error_flags                = ( DMA_LISR_TEIF0 | DMA_LISR_FEIF0 | DMA_LISR_DMEIF0 ),
     },
+  },
+  [WICED_SPI_2]  =
+  {
+    .port                         = SPI2,
+    .gpio_af                      = GPIO_AF_SPI2,
+    .peripheral_clock_reg         = RCC_APB1Periph_SPI2,
+    .peripheral_clock_func        = RCC_APB1PeriphClockCmd,
+//    .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_X],
+//    .pin_miso                     = &platform_gpio_pins[WICED_GPIO_X],
+//    .pin_clock                    = &platform_gpio_pins[WICED_GPIO_X],
+    .tx_dma =
+    {
+      .controller                 = DMA1,
+      .stream                     = DMA1_Stream4,
+      .channel                    = DMA_Channel_0,
+      .irq_vector                 = DMA1_Stream4_IRQn,
+      .complete_flags             = DMA_HISR_TCIF4,
+      .error_flags                = ( DMA_HISR_TEIF4 | DMA_HISR_FEIF4 ),
+    },
+    .rx_dma =
+    {
+      .controller                 = DMA1,
+      .stream                     = DMA1_Stream3,
+      .channel                    = DMA_Channel_0,
+      .irq_vector                 = DMA1_Stream3_IRQn,
+      .complete_flags             = DMA_LISR_TCIF3,
+      .error_flags                = ( DMA_LISR_TEIF3 | DMA_LISR_FEIF3 | DMA_LISR_DMEIF3 ),
+    },
+  },
+  [WICED_SPI_3]  =
+  {
+    .port                         = SPI3,
+    .gpio_af                      = GPIO_AF_SPI3,
+    .peripheral_clock_reg         = RCC_APB1Periph_SPI3,
+    .peripheral_clock_func        = RCC_APB1PeriphClockCmd,
+//    .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_X],
+//    .pin_miso                     = &platform_gpio_pins[WICED_GPIO_X],
+    .pin_clock                    = &platform_gpio_pins[WICED_GPIO_12],
+    .tx_dma =
+    {
+      .controller                 = DMA1,
+      .stream                     = DMA1_Stream5,
+      .channel                    = DMA_Channel_0,
+      .irq_vector                 = DMA1_Stream5_IRQn,
+      .complete_flags             = DMA_HISR_TCIF5,
+      .error_flags                = ( DMA_HISR_TEIF5 | DMA_HISR_FEIF5 ),
+    },
+    .rx_dma =
+    {
+      .controller                 = DMA1,
+      .stream                     = DMA1_Stream0,
+      .channel                    = DMA_Channel_0,
+      .irq_vector                 = DMA1_Stream0_IRQn,
+      .complete_flags             = DMA_LISR_TCIF0,
+      .error_flags                = ( DMA_LISR_TEIF0 | DMA_LISR_FEIF0 | DMA_LISR_DMEIF0 ),
+    },
+  },
+  [WICED_SPI_4]  =
+  {
+    .port                         = SPI4,
+    .gpio_af                      = GPIO_AF_SPI4,
+    .peripheral_clock_reg         = RCC_APB2Periph_SPI4,
+    .peripheral_clock_func        = RCC_APB2PeriphClockCmd,
+    .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_9],
+    .pin_miso                     = &platform_gpio_pins[WICED_GPIO_35],
+    .pin_clock                    = &platform_gpio_pins[WICED_GPIO_33],
+    .tx_dma =
+    {
+      .controller                 = DMA2,
+      .stream                     = DMA2_Stream1,
+      .channel                    = DMA_Channel_4,
+      .irq_vector                 = DMA2_Stream1_IRQn,
+      .complete_flags             = DMA_LISR_TCIF1,
+      .error_flags                = ( DMA_LISR_TEIF1 | DMA_LISR_FEIF1 ),
+    },
+    .rx_dma =
+    {
+      .controller                 = DMA2,
+      .stream                     = DMA2_Stream4,
+      .channel                    = DMA_Channel_4,
+      .irq_vector                 = DMA2_Stream4_IRQn,
+      .complete_flags             = DMA_HISR_TCIF4,
+      .error_flags                = ( DMA_HISR_TEIF4 | DMA_HISR_FEIF4 | DMA_HISR_DMEIF4 ),
+    },
+  },
+  [WICED_SPI_5]  =
+  {
+    .port                         = SPI5,
+    .gpio_af                      = GPIO_AF_SPI5,
+    .peripheral_clock_reg         = RCC_APB2Periph_SPI5,
+    .peripheral_clock_func        = RCC_APB2PeriphClockCmd,
+    .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_31],
+    .pin_miso                     = &platform_gpio_pins[WICED_GPIO_27],
+    .pin_clock                    = &platform_gpio_pins[WICED_GPIO_37],
+    .tx_dma =
+    {
+      .controller                 = DMA2,
+      .stream                     = DMA2_Stream6,
+      .channel                    = DMA_Channel_7,
+      .irq_vector                 = DMA2_Stream6_IRQn,
+      .complete_flags             = DMA_HISR_TCIF6,
+      .error_flags                = ( DMA_HISR_TEIF6 | DMA_HISR_FEIF6 ),
+    },
+    .rx_dma =
+    {
+      .controller                 = DMA2,
+      .stream                     = DMA2_Stream5,
+      .channel                    = DMA_Channel_7,
+      .irq_vector                 = DMA2_Stream5_IRQn,
+      .complete_flags             = DMA_HISR_TCIF5,
+      .error_flags                = ( DMA_HISR_TEIF5 | DMA_HISR_FEIF5 | DMA_HISR_DMEIF5 ),
+    },
   }
 };
 
