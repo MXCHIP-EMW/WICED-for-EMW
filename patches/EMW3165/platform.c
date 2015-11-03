@@ -124,6 +124,10 @@ const platform_pwm_t platform_pwm_peripherals[] =
 };
 
 /* SPI peripherals */
+/* NOTE: SPI peripherals SPI4, SPI5 and SPI6 might have issues with RX DMA
+ *       See https://github.com/MXCHIP-EMW/WICED-for-EMW/pull/13
+ *       and https://github.com/MXCHIP-EMW/WICED-for-EMW/issues/9
+ */
 const platform_spi_t platform_spi_peripherals[] =
 {
   [WICED_SPI_1]  =

@@ -30,6 +30,11 @@ echo
 echo === Installing the EMW3165 platform
 cp -r patches/EMW3165 $WICED_DIR/platforms
 
+echo === Patching STM32F4xx libraries to support for more than 3 SPI peripherals
+cd $WICED_DIR
+patch -p1 < ../patches/WICED_3.3.1-STM32F4_Add_SPI_Devices.patch
+cd ..
+
 echo 
 echo === Adding SWD and Stlink-v2 support
 echo === Use JTAG=stlink-v2 on the make command line to use Stlink-v2
