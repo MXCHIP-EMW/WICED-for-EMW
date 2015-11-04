@@ -11,20 +11,20 @@ Travis CI Build Status: [![Build Status](https://travis-ci.org/MXCHIP-EMW/WICED-
 
 * Download WICED_SDK_3.3.1.7z.zip from Broadcom. It requires registration on their site **with what Broadcom calls a "corporate" e-mail address, so you can't use GMail, Outlook.com or other such e-mail addresses**.
 * Place the file in this directory and run `./extract-and-patch-WICED`. This will decompress and patch WICED.
-* Enter the WICED-SDK-3.3.1 directory and run something like `./make EMW<module no>-LwIP-FreeRTOS-<app-dir>.<app-name> download run JTAG=<jtag-adapter>` to compile and flash.
+* Enter the WICED-SDK-3.3.1 directory and run something like `./make EMW<module no>-<app-dir>.<app-name> download run JTAG=<jtag-adapter>` to compile and flash.
 
 Step by step:
 * Change into the SDK directory with `cd WICED-SDK-3.3.1`
 * Test flashing an application to the module.
 
 For EMW3165, using stlink-v2 for flashing, using the application *apsta* from the *snip* directory run:
-`./make EMW3165-FreeRTOS-LwIP-snip.apsta download run JTAG=stlink-v2`
+`./make EMW3165-snip.apsta download run JTAG=stlink-v2`
 
 For EMW3165, using jlink, but otherwise as above:
-`./make EMW3165-FreeRTOS-LwIP-snip.apsta download run JTAG=jlink`
+`./make EMW3165-snip.apsta download run JTAG=jlink`
 
 For EMW3162, using the green development board w/FT2232H chip for flashing, but otherwise as above:
-`./make EMW3162-FreeRTOS-LwIP-snip.apsta download run`
+`./make EMW3162-snip.apsta download run`
 
 You may need to hold down reset while starting the flashing process while using st-link-v2.
 
@@ -55,9 +55,10 @@ Various things to keep in mind with regards to the hardware:
 - Both EMW3162 development boards come with headers to solder on to an EMW3162. If you plan on using more than one EMW3162 with a development board, you need to source 2mm headers. The most common type of header are 2.54mm and those don't fit the module. You will require a couple of strips of regular 2.54mm headers to solder onto the development board as breakouts for the EMW3162 pins.
 
 Known issues:
-- SPI4 and SPI5 do not work on EMW3165. See #13 and #9 for workaround.
+- SPI4 and SPI5 have DMA issues on EMW3165. See #13 and #9 for workaround and the SPI config in platform.c for details.
 - Factory reset and over the air updates do not work on EMW3165. Those should work on EMW3162 if you add the SPI flash chip yourself, as the module does not come with one. See #6 for status.
 - Flashing does not work on Windows. This is an OpenOCD and libusb issue. Directions on how to make this work are appreciated. For now we recommend that Windows users use a virtual machine running Linux.
+- LwIP has issues with TCP retries. For now we recommend using NetX and ThreadX instead of LwIP and FreeRTOS. See https://github.com/MXCHIP-EMW/WICED-for-EMW/issues/15 for details.
 
 *Sample EMW3162 setup, with the green development board that has embedded JTAG, hooked up to a SPI flash for OTA support and a few peripherals:*
 ![Sample EMW3162 setup](https://raw.githubusercontent.com/MXCHIP-EMW/WICED-for-EMW/master/docs_and_libraries/green-dev-board-with-annotations.png)
