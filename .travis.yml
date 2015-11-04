@@ -14,7 +14,7 @@ env:
   # You need to add the two leading spaces on each line.
   # This is not generated dynamically, so builds can run in parallel.
 
-  - APP=demo.appliance
+#  - APP=demo.appliance
   - APP=snip.amqp
   - APP=snip.amqps
   - APP=snip.ap_clients_rssi
@@ -52,7 +52,7 @@ env:
   - APP=snip.wps_registrar
   - APP=test.iperf_app
   - APP=test.mfg_test
-  - APP=wwd.appliance
+#  - APP=wwd.appliance
   - APP=wwd.ping
   - APP=wwd.scan
 matrix:
