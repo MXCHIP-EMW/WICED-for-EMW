@@ -30,10 +30,15 @@ echo
 echo === Installing the EMW3165 platform
 cp -r patches/EMW3165 $WICED_DIR/platforms
 
+echo
 echo === Patching STM32F4xx libraries to support for more than 3 SPI peripherals
 cd $WICED_DIR
 patch -p1 < ../patches/WICED_3.3.1-STM32F4_Add_SPI_Devices.patch
 cd ..
+
+echo
+echo "=== Patching STM32F4xx WAF libraries for OTA (see #6)"
+cp patches/waf_platform.c $WICED_DIR/WICED/platform/MCU/STM32F4xx/WAF/
 
 echo 
 echo === Adding SWD and Stlink-v2 support
@@ -50,7 +55,7 @@ if [ "`uname`" == "Linux" ]; then
 
     if [ "$TRAVIS" != true ]; then
 		echo 
-		echo === Adding udev rules to enable J-Link and st-link-v2 from userspace
+		echo === Adding udev rules to enable JLink and stlink-v2 from userspace
 		echo === Please enter your password if prompted
 		sudo cp patches/*.rules /etc/udev/rules.d
 	fi
