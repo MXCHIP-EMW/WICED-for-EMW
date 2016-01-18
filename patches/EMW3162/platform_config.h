@@ -41,7 +41,7 @@ extern "C" {
 #define PLL_P_CONSTANT       ( 2 )
 
 /*  PLLQ : 5 */
-#define PPL_Q_CONSTANT       ( 5 )
+#define PLL_Q_CONSTANT       ( 5 )
 
 /*  System clock source  : PLL clock */
 #define SYSTEM_CLOCK_SOURCE  ( RCC_SYSCLKSource_PLLCLK )
