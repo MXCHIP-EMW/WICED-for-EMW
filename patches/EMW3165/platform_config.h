@@ -14,7 +14,7 @@ extern "C" {
 #define PLL_M_CONSTANT          ( 26 )
 #define PLL_N_CONSTANT          ( 200 )
 #define PLL_P_CONSTANT          ( 2 )
-#define PPL_Q_CONSTANT          ( 4 )
+#define PLL_Q_CONSTANT          ( 4 )
 #define SYSTEM_CLOCK_SOURCE     ( RCC_SYSCLKSource_PLLCLK )
 #define SYSTICK_CLOCK_SOURCE    ( SysTick_CLKSource_HCLK )
 #define INT_FLASH_WAIT_STATE    ( FLASH_Latency_3 )

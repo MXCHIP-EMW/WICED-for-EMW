@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
-WICED_DIR='WICED-SDK-3.3.1'
+WICED_DIR='WICED-SDK-3.5.2'
 WICED_ARCHIVE_EXT='.7z.zip'
 
 echo
-echo -- WICED 3.3.1 patcher for MXCHIP EMW modules --
+echo -- WICED 3.5.2 patcher for MXCHIP EMW modules --
 echo ------------------------------------------------
 
 if [ -e $WICED_DIR ]; then 
@@ -33,7 +33,7 @@ cp -r patches/EMW3165 $WICED_DIR/platforms
 echo
 echo === Patching STM32F4xx libraries to support for more than 3 SPI peripherals
 cd $WICED_DIR
-patch -p1 < ../patches/WICED_3.3.1-STM32F4_Add_SPI_Devices.patch
+patch -p1 < ../patches/WICED_3.5.2-STM32F4_Add_SPI_Devices.patch
 cd ..
 
 echo
