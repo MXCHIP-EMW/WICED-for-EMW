@@ -5,7 +5,7 @@ addons:
     - p7zip-full
 install:
   - wget https://github.com/emilf/travis-ci-deps-for-emw/raw/master/deps.zip
-  - 7z e -y -pqwerty12345 deps.zip
+  - unzip -P qwerty12345 deps.zip
   - ./extract-and-patch-WICED
   - cd WICED-SDK-3.3.1
 env:
