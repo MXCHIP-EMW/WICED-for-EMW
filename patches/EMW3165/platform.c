@@ -217,7 +217,7 @@ const platform_spi_t platform_spi_peripherals[] =
   [WICED_SPI_4]  =
   {
     .port                         = SPI4,
-    .gpio_af                      = GPIO_AF_SPI4,
+    .gpio_af                      = GPIO_AF6_SPI4,
     .peripheral_clock_reg         = RCC_APB2Periph_SPI4,
     .peripheral_clock_func        = RCC_APB2PeriphClockCmd,
     .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_9],
@@ -245,7 +245,7 @@ const platform_spi_t platform_spi_peripherals[] =
   [WICED_SPI_5]  =
   {
     .port                         = SPI5,
-    .gpio_af                      = GPIO_AF_SPI5,
+    .gpio_af                      = GPIO_AF6_SPI5,
     .peripheral_clock_reg         = RCC_APB2Periph_SPI5,
     .peripheral_clock_func        = RCC_APB2PeriphClockCmd,
     .pin_mosi                     = &platform_gpio_pins[WICED_GPIO_31],
@@ -499,7 +499,7 @@ void platform_init_external_devices( void )
 }
 
 /* Checks if a factory reset is requested */
-wiced_bool_t platform_check_factory_reset( void )
+uint32_t  platform_get_factory_reset_button_time ( uint32_t max_time )
 {
     uint32_t factory_reset_counter = 0;
 #ifndef GPIO_LED_NOT_SUPPORTED
@@ -527,12 +527,13 @@ wiced_bool_t platform_check_factory_reset( void )
             led_state = 0;
         }
 #endif
-        if ( factory_reset_counter == 5000 )
+        if ( factory_reset_counter >= max_time )
         {
-            return WICED_TRUE;
+            break;
         }
     }
-    return WICED_FALSE;
+
+    return factory_reset_counter;
 }
 
 /******************************************************

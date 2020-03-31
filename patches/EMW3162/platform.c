@@ -372,7 +372,7 @@ void platform_init_external_devices( void )
 }
 
 /* Checks if a factory reset is requested */
-wiced_bool_t platform_check_factory_reset( void )
+uint32_t  platform_get_factory_reset_button_time ( uint32_t max_time )
 {
     uint32_t factory_reset_counter = 0;
     int led_state = 0;
@@ -395,15 +395,16 @@ wiced_bool_t platform_check_factory_reset( void )
             platform_gpio_output_low( &platform_gpio_pins[ WICED_LED1 ] );
             led_state = 0;
         }
-        if ( factory_reset_counter == 5000 )
+        if ( factory_reset_counter >= max_time )
         {
 #ifdef emw3162_bootloader_patch
             if (!platform_gpio_input_get( &platform_gpio_pins[ WICED_BUTTON2 ]) while(1);
 #endif
-            return WICED_TRUE;
+            break;
         }
     }
-    return WICED_FALSE;
+
+    return factory_reset_counter;
 }
 
 /******************************************************

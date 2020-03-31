@@ -1,0 +1,57 @@
+diff -u -Naur WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c
+--- WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c	2016-01-16 23:19:08.000000000 -0800
++++ WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/peripherals/platform_spi.c	2016-01-16 23:36:30.000000000 -0800
+@@ -125,6 +125,14 @@
+     {
+         return 2;
+     }
++    else if ( spi == SPI4 )
++    {
++        return 3;
++    }
++    else if ( spi == SPI4 )
++    {
++        return 4;
++    }
+     else
+     {
+         return INVALID_UART_PORT_NUMBER;
+diff -u -Naur WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h
+--- WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h	2016-01-16 23:19:08.000000000 -0800
++++ WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_isr_interface.h	2016-01-16 23:37:05.000000000 -0800
+@@ -108,6 +108,8 @@
+ extern void SDIO_irq               ( void );  // SDIO
+ extern void TIM5_irq               ( void );  // TIM5
+ extern void SPI3_irq               ( void );  // SPI3
++extern void SPI4_irq               ( void );  // SPI4
++extern void SPI5_irq               ( void );  // SPI5
+ extern void UART4_irq              ( void );  // UART4
+ extern void UART5_irq              ( void );  // UART5
+ extern void TIM6_DAC_irq           ( void );  // TIM6 and DAC1&2 underrun errors
+diff -u -Naur WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c
+--- WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c	2016-01-16 23:19:08.000000000 -0800
++++ WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_unhandled_isr.c	2016-01-16 23:37:36.000000000 -0800
+@@ -132,6 +132,8 @@
+ PLATFORM_SET_DEFAULT_ISR( SDIO_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( TIM5_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( SPI3_irq               , UnhandledInterrupt )
++PLATFORM_SET_DEFAULT_ISR( SPI4_irq               , UnhandledInterrupt )
++PLATFORM_SET_DEFAULT_ISR( SPI5_irq               , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( UART4_irq              , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( UART5_irq              , UnhandledInterrupt )
+ PLATFORM_SET_DEFAULT_ISR( TIM6_DAC_irq           , UnhandledInterrupt )
+diff -u -Naur WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_vector_table.c WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_vector_table.c
+--- WICED-SDK-3.5.2.orig/WICED/platform/MCU/STM32F4xx/platform_vector_table.c	2016-01-16 23:19:08.000000000 -0800
++++ WICED-SDK-3.5.2/WICED/platform/MCU/STM32F4xx/platform_vector_table.c	2016-01-16 23:38:07.000000000 -0800
+@@ -164,6 +164,11 @@
+     (uint32_t)DCMI_irq              , // DCMI
+     (uint32_t)CRYP_irq              , // CRYP crypto
+     (uint32_t)HASH_RNG_irq          , // Hash and Rng
++    (uint32_t)0                     , // Reserved (FPU)
++    (uint32_t)0                     , // Reserved
++    (uint32_t)0                     , // Reserved
++    (uint32_t)SPI4_irq              , // SPI4
++    (uint32_t)SPI5_irq              , // SPI5
+ };
+ 
+ /******************************************************
